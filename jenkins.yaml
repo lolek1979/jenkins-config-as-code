@@ -60,28 +60,19 @@ jenkins:
             slaveConnectTimeoutStr: "100"
             yamlMergeStrategy: "override"
           - containers:
-              - args: "9999999"
-                command: "sleep"
-                image: "pkonieczny321/node-docker:latest"
-                livenessProbe:
-                  failureThreshold: 0
-                  initialDelaySeconds: 0
-                  periodSeconds: 0
-                  successThreshold: 0
-                  timeoutSeconds: 0
-                name: "docker-agent"
-                ttyEnabled: true
-                workingDir: "/home/jenkins/agent"
-            id: "e541f8c4-7074-4422-b322-418e8b44b2f3"
-            label: "docker-agent"
-            name: "docker-agent"
-            namespace: "jenkins"
-            volumes:
-              - hostPathVolume:
-                  hostPath: "/var/run/docker.sock"
-                  mountPath: "/var/run/docker.sock"
-                  readOnly: false
-            yamlMergeStrategy: "override"
+            - name: "docker-agent"
+              label: "docker-agent"
+              image: "pkonieczny321/node-docker:latest"
+              namespace: "jenkins"
+              command: "sleep"
+              args: "9999999"
+              workingDir: "/home/jenkins/agent"
+              volumes:
+                - hostPath: "/var/run/docker.sock"
+              volumeMounts:
+                - mountPath: "/var/run/docker.sock"
+                  name: "docker-socket"
+              yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
