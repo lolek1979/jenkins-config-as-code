@@ -21,9 +21,6 @@ credentials:
               scope: GLOBAL
 
 jenkins:
-  authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
   clouds:
     - kubernetes:
         name: "kubernetes"
@@ -35,7 +32,7 @@ jenkins:
           - key: "jenkins/jenkins-jenkins-agent"
             value: "true"
         templates:
-          # Default JNLP Agent Template
+          # Default JNLP Agent Template (unchanged)
           - name: "default"
             label: "jenkins-jenkins-agent"
             namespace: "jenkins"
@@ -52,7 +49,7 @@ jenkins:
                 resourceLimitMemory: "512Mi"
                 resourceRequestCpu: "512m"
                 resourceRequestMemory: "512Mi"
-          # Custom Docker-Enabled Agent Template (Single container)
+          # Custom Docker-Enabled Agent Template
           - name: "custom-docker-agent"
             label: "docker-agent"
             namespace: "jenkins"
@@ -60,6 +57,16 @@ jenkins:
             serviceAccount: "default"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
+            initContainers:                       # Add an init container
+              - name: fix-docker-socket-permissions
+                image: busybox                   # Use a lightweight image for this task
+                command:
+                  - "sh"
+                  - "-c"
+                  - "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock"
+                volumeMounts:
+                  - mountPath: "/var/run/docker.sock"
+                    name: "docker-socket"
             containers:
               - name: "jnlp"
                 image: "pkonieczny321/node-docker:latest"
