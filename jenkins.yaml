@@ -35,7 +35,7 @@ jenkins:
           - key: "jenkins/jenkins-jenkins-agent"
             value: "true"
         templates:
-          # Default JNLP agent template (if needed)
+          # Default JNLP Agent Template
           - name: "default"
             label: "jenkins-jenkins-agent"
             namespace: "jenkins"
@@ -52,7 +52,7 @@ jenkins:
                 resourceLimitMemory: "512Mi"
                 resourceRequestCpu: "512m"
                 resourceRequestMemory: "512Mi"
-          # Custom Docker-enabled agent template (single container with Docker)
+          # Custom Docker-Enabled Agent Template (Single container)
           - name: "custom-docker-agent"
             label: "docker-agent"
             namespace: "jenkins"
@@ -73,9 +73,8 @@ jenkins:
                   - mountPath: "/var/run/docker.sock"
                     name: "docker-socket"
             volumes:
-              - hostPathVolume:
-                  hostPath: "/var/run/docker.sock"
-                name: "docker-socket"
+              # Use a single-entry map for the hostPath volume
+              - hostPath: "/var/run/docker.sock"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
