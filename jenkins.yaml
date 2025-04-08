@@ -5,83 +5,79 @@ credentials:
           - usernamePassword:
               description: "Docker Hub login"
               id: "docker-hub-creds"
+              username: "pkonieczny321"
               password: "{AQAAABAAAABAW+BowRO3vxZ2cMn7T/20/hicwnYXtKJmyqQnQIvjG7ub7CPWEodOfRIxnyhNVFrYmDCswln0MBlKp2OnPi1u+lcggD1qW+MDL0SOrf6Nq/Q=}"
               scope: GLOBAL
-              username: "pkonieczny321"
           - usernamePassword:
               description: "Pulling/pushing to GitHub"
               id: "github-creds"
+              username: "lolek1979"
               password: "{AQAAABAAAACwoX8XNU0hDRAtJMSORkTufohC1h3Y/DBHvmo0LxTW3qRtpv2ocXyR+e4vcLGlGuUgCr8KHVoyb5Un86dQNsM7mfi1/KFkbNb6uHpAjtcupV1WVm/u0HD2P8FJTIGsIdUJvSjv2HR67FpM/MJ649IBABIxPBO0xdueVCvEgE1P8uwoSJF199WzB2oBZCsz48zlZFYVtTdYBlQF57E/xH83XFmQULnxBPz6u/m0HsaupnaSz70rplT4Zt+PhN7ytZz0}"
               scope: GLOBAL
-              username: "lolek1979"
           - string:
               description: "Argo CD API token for deployments"
               id: "argocd-token"
-              scope: GLOBAL
               secret: "{AQAAABAAAAFwXJUHNNZFp4pKJ0G482yrlo8IlFROXc5y3z1jWXw6U7wcpFoHkxDiXzj040/Og+vPzkgIrgfcrH7wWo/5zCMoX52eagGW6JmV4RvNd+oGNk2JWDvRTCVg2Hm6rsZ6FmG4VaLgzHQ9G/Ora1G4J9oI8rwcEK8mXNUevFdq2NC2KFYSnE+ygtrhSPVhgSgadvSm4Zy+qS1PbFkmSd2CI6o/DiliPdck5IiPqpg+yVu0BMblTheK9EVRbselpHnLFbIb+SxJ7wwUV/1RIvG7pjNEcilPV5aBNWDdZ1LFUG5etN7NxH57PFUym+cdf9g+HK96EPcdboR3z6hMhNvIp4G5ZMQE4/8g5tbQdsL6H7rjQVRgSDU59VgE+zFDKfti/+akQ7jZWpwfATG6Hf62cMSdx7I5Lgpek/nX7sbpFmm18YQe/j12oCYxZwvpjRyQqYNkeXcUhRJdfz0sYVs3cA0WyhYi346wl0DyCpoCV/b5wt/oJa8VZnrjNNlnoSANEJkV}"
+              scope: GLOBAL
+
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
   clouds:
     - kubernetes:
-        containerCap: 10
-        containerCapStr: "10"
-        jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
         name: "kubernetes"
         namespace: "jenkins"
+        jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+        jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+        serverUrl: "https://kubernetes.default"
         podLabels:
           - key: "jenkins/jenkins-jenkins-agent"
             value: "true"
-        serverUrl: "https://kubernetes.default"
         templates:
-          - containers:
-              - args: "^${computer.jnlpmac} ^${computer.name}"
-                envVars:
-                  - envVar:
-                      key: "JENKINS_URL"
-                      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          # Default JNLP Agent Template
+          - name: "default"
+            label: "jenkins-jenkins-agent"
+            namespace: "jenkins"
+            podRetention: "never"
+            serviceAccount: "default"
+            nodeUsageMode: "NORMAL"
+            yamlMergeStrategy: "override"
+            containers:
+              - name: "jnlp"
                 image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
-                name: "jnlp"
+                args: "^${computer.jnlpmac} ^${computer.name}"
+                workingDir: "/home/jenkins/agent"
                 resourceLimitCpu: "512m"
                 resourceLimitMemory: "512Mi"
                 resourceRequestCpu: "512m"
                 resourceRequestMemory: "512Mi"
-                workingDir: "/home/jenkins/agent"
-            id: "e6887f82754037b1ea15523da768b5ac2a45fde84f3a30ab8636e5f5c53cd86e"
-            label: "jenkins-jenkins-agent"
-            name: "default"
+          # Custom Docker-Enabled Agent Template (Single container)
+          - name: "custom-docker-agent"
+            label: "docker-agent"
             namespace: "jenkins"
-            nodeUsageMode: "NORMAL"
             podRetention: "never"
             serviceAccount: "default"
-            slaveConnectTimeout: 100
-            slaveConnectTimeoutStr: "100"
+            nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
-          - containers:
-              - args: "9999999"
-                command: "sleep"
+            containers:
+              - name: "jnlp"
                 image: "pkonieczny321/node-docker:latest"
-                livenessProbe:
-                  failureThreshold: 0
-                  initialDelaySeconds: 0
-                  periodSeconds: 0
-                  successThreshold: 0
-                  timeoutSeconds: 0
-                name: "docker-agent"
-                ttyEnabled: true
+                args: "^${computer.jnlpmac} ^${computer.name}"
                 workingDir: "/home/jenkins/agent"
-            id: "e541f8c4-7074-4422-b322-418e8b44b2f3"
-            label: "docker-agent"
-            name: "docker-agent"
-            namespace: "jenkins"
+                resourceLimitCpu: "512m"
+                resourceLimitMemory: "512Mi"
+                resourceRequestCpu: "512m"
+                resourceRequestMemory: "512Mi"
+                volumeMounts:
+                  - mountPath: "/var/run/docker.sock"
+                    name: "docker-socket"
             volumes:
               - hostPathVolume:
                   hostPath: "/var/run/docker.sock"
                   mountPath: "/var/run/docker.sock"
                   readOnly: false
-            yamlMergeStrategy: "override"
+
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
@@ -138,13 +134,16 @@ jenkins:
     - all:
         name: "all"
   viewsTabBar: "standard"
+
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
+
 appearance:
   prism:
     theme: PRISM
+
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -159,6 +158,7 @@ security:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   scriptApproval:
     forceSandbox: false
+
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
@@ -183,6 +183,7 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
+
 tool:
   git:
     installations:
