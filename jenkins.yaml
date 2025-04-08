@@ -80,10 +80,10 @@ jenkins:
               - hostPath:
                   path: /var/run/docker.sock
                 name: docker-socket
+                readOnly: false
             volumeMounts:
               - mountPath: /var/run/docker.sock
                 name: docker-socket
-                readOnly: false
             yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
