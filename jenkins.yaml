@@ -64,8 +64,6 @@ jenkins:
                   - "sh"
                   - "-c"
                   - "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock"
-                volumeMounts:
-                    name: "docker-socket"
             containers:
               - name: "jnlp"
                 image: "pkonieczny321/node-docker:latest"
