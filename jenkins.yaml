@@ -65,7 +65,6 @@ jenkins:
                   - "-c"
                   - "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock"
                 volumeMounts:
-                  - mountPath: "/var/run/docker.sock"
                     name: "docker-socket"
             containers:
               - name: "jnlp"
