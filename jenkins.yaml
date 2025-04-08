@@ -77,10 +77,13 @@ jenkins:
             name: "docker-agent"
             namespace: "jenkins"
             volumes:
-              - hostPathVolume:
-                  hostPath: "/var/run/docker.sock"
-                  mountPath: "/var/run/docker.sock"
-                  readOnly: false
+              - hostPath:
+                  path: /var/run/docker.sock
+                name: docker-socket
+            volumeMounts:
+              - mountPath: /var/run/docker.sock
+                name: docker-socket
+                readOnly: false
             yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
