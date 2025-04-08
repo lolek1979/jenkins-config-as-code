@@ -73,8 +73,10 @@ jenkins:
                   - mountPath: "/var/run/docker.sock"
                     name: "docker-socket"
             volumes:
-              # Use a single-entry map for the hostPath volume
-              - hostPath: "/var/run/docker.sock"
+               - hostPathVolume:
+                   hostPath: "/var/run/docker.sock"
+                   mountPath: "/var/run/docker.sock"
+                   readOnly: false
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
