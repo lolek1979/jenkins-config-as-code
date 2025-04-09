@@ -29,7 +29,7 @@ jenkins:
         jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
         serverUrl: "https://kubernetes.default"
         templates:
-          - name: "custom-docker-agent"
+          - name: "docker-agent"
             label: "docker-agent"
             yamls:
               - |
