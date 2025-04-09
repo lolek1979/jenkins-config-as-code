@@ -31,19 +31,17 @@ jenkins:
         templates:
           - name: "jenkins-docker-agent"
             label: "jenkins-docker-agent"
-            # Note: the structured configuration here is used, and unsupported fields have been removed.
             containers:
               - name: "jnlp"
-                image: pkonieczny321/node-docker:latest
+                image: "pkonieczny321/node-docker:latest"
                 alwaysPullImage: true
                 args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-                workingDir: /home/jenkins/agent
-                # Use an empty list for command if you want to explicitly override it;
-                # alternatively remove the line to use the image default.
+                workingDir: "/home/jenkins/agent"
+                # Using an empty list here explicitly; if problems persist, you might remove this line.
                 command: []
             initContainers:
               - name: "busybox"
-                image: busybox:latest
+                image: "busybox:latest"
                 command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
             volumes:
               - hostPathVolume:
@@ -62,7 +60,7 @@ appearance:
   prism:
     theme: PRISM
 
-# Security configuration: Only include supported keys.
+# Security: Only supported keys are included
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
