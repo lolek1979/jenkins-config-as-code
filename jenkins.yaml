@@ -61,7 +61,8 @@ jenkins:
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
             # Add security context at the pod level to make sure the jenkins user can access the Docker socket.
-            supplementalGroups: 20  # Replace 999 with the group ID that owns /var/run/docker.sock on your host.
+            supplementalGroups: 
+              - 20  # Replace 999 with the group ID that owns /var/run/docker.sock on your host.
             volumes:
               - hostPathVolume:
                   mountPath: "/var/run/docker.sock"
