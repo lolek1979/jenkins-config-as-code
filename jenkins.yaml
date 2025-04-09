@@ -20,7 +20,7 @@ credentials:
               secret: "{AQAAABAAAAFwXJUHNNZFp4pKJ0G482yrlo8IlFROXc5y3z1jWXw6U7wcpFoHkxDiXzj040/Og+vPzkgIrgfcrH7wWo/5zCMoX52eagGW6JmV4RvNd+oGNk2JWDvRTCVg2Hm6rsZ6FmG4VaLgzHQ9G/Ora1G4J9oI8rwcEK8mXNUevFdq2NC2KFYSnE+ygtrhSPVhgSgadvSm4Zy+qS1PbFkmSd2CI6o/DiliPdck5IiPqpg+yVu0BMblTheK9EVRbselpHnLFbIb+SxJ7wwUV/1RIvG7pjNEcilPV5aBNWDdZ1LFUG5etN7NxH57PFUym+cdf9g+HK96EPcdboR3z6hMhNvIp4G5ZMQE4/8g5tbQdsL6H7rjQVRgSDU59VgE+zFDKfti/+akQ7jZWpwfATG6Hf62cMSdx7I5Lgpek/nX7sbpFmm18YQe/j12oCYxZwvpjRyQqYNkeXcUhRJdfz0sYVs3cA0WyhYi346wl0DyCpoCV/b5wt/oJa8VZnrjNNlnoSANEJkV}"
               scope: GLOBAL
 
-jjenkins:
+jenkins:
   clouds:
     - kubernetes:
         name: "kubernetes"
