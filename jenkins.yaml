@@ -37,7 +37,7 @@ jenkins:
               alwaysPullImage: true
               args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
               workingDir: /home/jenkins/agent
-              command: ""
+              # command: ""
             initContainers:
             - name: busybox
               image: busybox:latest
