@@ -31,43 +31,12 @@ jenkins:
         templates:
           - name: "jenkins-docker-agent"
             label: "jenkins-docker-agent"
-            # Instead of using structured keys for containers and initContainers,
-            # we provide a full pod specification as raw YAML.
-            yamls:
-              - |
-                apiVersion: v1
-                kind: Pod
-                metadata:
-                  labels:
-                    jenkins/jenkins-jenkins-agent: "true"
-                spec:
-                  initContainers:
-                    - name: fix-docker-socket-permissions
-                      image: busybox:latest
-                      command:
-                        - sh
-                        - -c
-                        - "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600"
-                      volumeMounts:
-                        - name: docker-socket
-                          mountPath: /var/run/docker.sock
-                  containers:
-                    - name: jnlp
-                      image: "pkonieczny321/node-docker:latest"
-                      alwaysPullImage: true
-                      args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-                      workingDir: "/home/jenkins/agent"
-                  volumes:
-                    - name: docker-socket
-                      hostPath:
-                        path: /var/run/docker.sock
-                        type: Socket
-                  # Additional pod-level options (instanceCap, idleMinutes, etc.) can be set here if supported
-        # If you prefer to use structured fields for options like instanceCap, idleMinutes,
-        # add them at this level:
-        instanceCap: 5
-        idleMinutes: 90
-        slaveConnectionTimeout: 100
+            containers:
+              - name: "jnlp"
+                image: "pkonieczny321/node-docker:latest"
+                alwaysPullImage: true
+                args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
+                workingDir: "/home/jenkins/agent"
 
 globalCredentialsConfiguration:
   configuration:
@@ -78,7 +47,7 @@ appearance:
   prism:
     theme: PRISM
 
-# Security: Only include keys supported by the GlobalConfigurationCategory$Security schema.
+# Security: Only supported keys are included
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
