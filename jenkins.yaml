@@ -31,19 +31,28 @@ jenkins:
         templates:
           - name: "jenkins-docker-agent"
             label: "jenkins-docker-agent"
+            # Note: the structured configuration here is used, and unsupported fields have been removed.
             containers:
-            - name: "jnlp"
-              image: pkonieczny321/node-docker:latest
-              alwaysPullImage: true
-              args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-              workingDir: /home/jenkins/agent
+              - name: "jnlp"
+                image: pkonieczny321/node-docker:latest
+                alwaysPullImage: true
+                args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
+                workingDir: /home/jenkins/agent
+                # Use an empty list for command if you want to explicitly override it;
+                # alternatively remove the line to use the image default.
+                command: []
+            initContainers:
+              - name: "busybox"
+                image: busybox:latest
+                command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
             volumes:
-            - hostPathVolume:
-                mountPath: "/var/run/docker.sock"
-                hostPath: "/var/run/docker.sock"
+              - hostPathVolume:
+                  mountPath: "/var/run/docker.sock"
+                  hostPath: "/var/run/docker.sock"
             instanceCap: 5
             idleMinutes: 90
             slaveConnectionTimeout: 100
+
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
@@ -52,6 +61,8 @@ globalCredentialsConfiguration:
 appearance:
   prism:
     theme: PRISM
+
+# Security configuration: Only include supported keys.
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -61,11 +72,8 @@ security:
     hideSandbox: false
   scriptApproval:
     forceSandbox: false
-  gitHooks:
-    allowedOnAgents: false
-    allowedOnController: false
-  gitHostKeyVerificationConfiguration:
-    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  prism:
+    theme: PRISM
 
 unclassified:
   buildDiscarders:
