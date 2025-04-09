@@ -1,11 +1,18 @@
+# Start from the official Jenkins image
 FROM jenkins/jenkins
 
-ARG HOST_UID=1004
-ARG HOST_GID=999
+# Define build arguments (defaults based on image layers)
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
+ARG AGENT_WORKDIR=/home/jenkins/agent
+ARG VERSION=3301.v4363ddcca_4e7
 
+# Switch to root to install prerequisites and additional software
 USER root
 
-# Update and install prerequisites
+# --- Install Prerequisites and Docker ---
 RUN apt-get update -y && \
     apt-get install -y \
       apt-transport-https \
@@ -27,17 +34,35 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
       docker-buildx-plugin \
       docker-compose-plugin
 
-# Install kubectl by downloading the binary directly (this works well on Debian Bookworm)
-RUN curl -LO "https://dl.k8s.io/release/v1.27.0/bin/linux/$(dpkg --print-architecture)/kubectl" && \
+# --- Install kubectl directly ---
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-# Adjust Jenkins user UID and add the Jenkins user to the docker group
-RUN usermod -u $HOST_UID jenkins && \
-    groupmod -g $HOST_GID docker || true && \
+# --- Switch to jenkins user temporarily ---
+USER jenkins
+ENV AGENT_WORKDIR=${AGENT_WORKDIR}
+
+# (Optional) Here you may add RUN steps as needed under the jenkins user.
+# Then switch back to root to copy the agent launcher.
+
+USER root
+
+# --- Adjust ownership: Set Jenkins user UID and add Jenkins to the docker group ---
+RUN usermod -u ${uid} jenkins && \
+    groupmod -g ${gid} docker || true && \
     usermod -aG docker jenkins
 
+# --- Switch back to jenkins ---
 USER jenkins
-WORKDIR /var/jenkins_home
+WORKDIR /home/jenkins
 
-CMD ["jenkins"]
+# Define volumes (as declared in the official image)
+VOLUME ["/home/jenkins/.jenkins", "/home/jenkins/agent"]
+
+# Set metadata labels (optional)
+LABEL org.opencontainers.image.vendor="Jenkins" \
+      org.opencontainers.image.title="Official Jenkins Inbound Agent - Custom with Docker" 
+
+# Set the default entrypoint that starts the agent using the provided jenkins-agent launcher.
+ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
