@@ -60,7 +60,9 @@ jenkins:
             serviceAccount: "default"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
-            # Define a volume so that the Jenkins Pipeline can use Docker (mounting the Docker socket)
+            # Add security context at the pod level to make sure the jenkins user can access the Docker socket.
+            securityContext:
+              fsGroup: 999  # Replace 999 with the group ID that owns /var/run/docker.sock on your host.
             volumes:
               - hostPathVolume:
                   mountPath: "/var/run/docker.sock"
@@ -70,10 +72,18 @@ jenkins:
                 image: "pkonieczny321/jenkins-docker-agent:latest"
                 args: "^${computer.jnlpmac} ^${computer.name}"
                 workingDir: "/home/jenkins/agent"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
+                resources:
+                  limits:
+                    cpu: "512m"
+                    memory: "512Mi"
+                  requests:
+                    cpu: "512m"
+                    memory: "512Mi"
+                # Optional: you can add envVars here if needed
+                envVars:
+                  - envVar:
+                      key: "JENKINS_URL"
+                      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true

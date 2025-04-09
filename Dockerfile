@@ -1,35 +1,47 @@
-# Use the official Docker CLI image as the base
-FROM docker:20.10.21
+FROM jenkins/inbound-agent:latest
 
 USER root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/home/jenkins
+ENV JENKINS_URL=http://jenkins.jenkins.svc.cluster.local:8080
+RUN curl -L "${JENKINS_URL}/jnlpJars/agent.jar" -o /home/jenkins/agent/agent.jar
 
-# Install other utilities via apk
-RUN apk update && \
-    apk add --no-cache \
+# Conditionally remove "stretch-backports" references if they exist.
+RUN if [ -f /etc/apt/sources.list ]; then \
+      sed -i '/stretch-backports/ d' /etc/apt/sources.list; \
+    fi && \
+    if [ -d /etc/apt/sources.list.d ]; then \
+      find /etc/apt/sources.list.d -type f -exec sed -i '/stretch-backports/ d' {} \; ; \
+    fi
+
+# Install ca-certificates-java first then update certificates.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates-java && \
+    update-ca-certificates -f
+
+# Update apt and install necessary packages.
+# Use openjdk-17-jre-headless because Debian Bookworm now provides JDK 17.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
       bash \
       curl \
       git \
       docker-compose \
-      openjdk11-jre
+      openjdk-17-jre-headless && \
+    dpkg --configure -a && \
+    rm -rf /var/lib/apt/lists/*
 
-# Download and install kubectl manually
-# For aarch64 (ARM64) architecture, use arm64 in the URL. For AMD64, replace 'arm64' with 'amd64'.
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
+# Download and install kubectl manually (amd64 version)
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin/kubectl
 
-# (Optional) Install additional tools here (for example, maven or helm)
-# RUN apk add --no-cache maven helm
+# Download and install the Docker CLI (static binary for amd64)
+RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.21.tgz" | \
+    tar xz --strip 1 -C /usr/local/bin docker
 
-# Create a workspace directory
-RUN mkdir -p /home/jenkins/agent
-
-# Set the working directory to the agent's working directory
+# Create a workspace directory for the Jenkins agent and adjust ownership for the jenkins user.
+RUN mkdir -p /home/jenkins/agent && chown -R jenkins:jenkins /home/jenkins/agent
 WORKDIR /home/jenkins/agent
 
-# In this example, we remain as root.
-# Optionally create a non-root user if your Jenkins agent requires it:
-# RUN adduser -D jenkins && chown -R jenkins:jenkins /home/jenkins/agent
-# USER jenkins
-ENTRYPOINT [ "/usr/local/bin/jenkins-agent" ]
-CMD [ "${computer.jnlpmac}", "${computer.name}" ]
+USER jenkins
