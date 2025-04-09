@@ -72,13 +72,10 @@ jenkins:
                 image: "pkonieczny321/jenkins-docker-agent:latest"
                 args: "^${computer.jnlpmac} ^${computer.name}"
                 workingDir: "/home/jenkins/agent"
-                resources:
-                  limits:
-                    cpu: "512m"
-                    memory: "512Mi"
-                  requests:
-                    cpu: "512m"
-                    memory: "512Mi"
+                resourceLimitCpu: "512m"
+                resourceLimitMemory: "512Mi"
+                resourceRequestCpu: "512m"
+                resourceRequestMemory: "512Mi"
                 # Optional: you can add envVars here if needed
                 envVars:
                   - envVar:
