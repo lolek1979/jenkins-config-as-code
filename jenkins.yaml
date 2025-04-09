@@ -51,7 +51,7 @@ jenkins:
           workingDir: "/home/jenkins/agent"
         id: "e6887f82754037b1ea15523da768b5ac2a45fde84f3a30ab8636e5f5c53cd86e"
         label: "jenkins-jenkins-agent"
-        name: "default"
+        name: "jenkins-docker-agent"
         namespace: "jenkins"
         nodeUsageMode: NORMAL
         podRetention: "never"
