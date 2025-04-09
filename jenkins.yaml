@@ -37,19 +37,6 @@ jenkins:
                 alwaysPullImage: true
                 args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
                 workingDir: "/home/jenkins/agent"
-                # Using an empty list here explicitly; if problems persist, you might remove this line.
-                command: []
-            initContainers:
-              - name: "busybox"
-                image: "busybox:latest"
-                command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
-            volumes:
-              - hostPathVolume:
-                  mountPath: "/var/run/docker.sock"
-                  hostPath: "/var/run/docker.sock"
-            instanceCap: 5
-            idleMinutes: 90
-            slaveConnectionTimeout: 100
 
 globalCredentialsConfiguration:
   configuration:
