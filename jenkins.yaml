@@ -32,7 +32,7 @@ jenkins:
       name: "kubernetes"
       namespace: "jenkins"
       podLabels:
-      - key: "jenkins/jenkins-jenkins-agent"
+      - key: "jenkins/jenkins-docker-agent"
         value: "true"
       serverUrl: "https://kubernetes.default"
       templates:
@@ -50,7 +50,7 @@ jenkins:
           resourceRequestMemory: "512Mi"
           workingDir: "/home/jenkins/agent"
         id: "e6887f82754037b1ea15523da768b5ac2a45fde84f3a30ab8636e5f5c53cd86e"
-        label: "jenkins-jenkins-agent"
+        label: "jenkins-docker-agent"
         name: "jenkins-docker-agent"
         namespace: "jenkins"
         nodeUsageMode: NORMAL
@@ -65,7 +65,7 @@ jenkins:
   disableRememberMe: true
   labelAtoms:
   - name: "built-in"
-  - name: "jenkins-jenkins-agent"
+  - name: "jenkins-docker-agent"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
