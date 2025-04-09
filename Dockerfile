@@ -28,16 +28,16 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
       docker-compose-plugin
 
 # Install kubectl by downloading the binary directly (this works well on Debian Bookworm)
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" && \
+RUN curl -LO "https://dl.k8s.io/release/v1.27.0/bin/linux/$(dpkg --print-architecture)/kubectl" && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-# # Adjust Jenkins user UID and add the Jenkins user to the docker group
-# RUN usermod -u $HOST_UID jenkins && \
-#     groupmod -g $HOST_GID docker || true && \
-#     usermod -aG docker jenkins
+# Adjust Jenkins user UID and add the Jenkins user to the docker group
+RUN usermod -u $HOST_UID jenkins && \
+    groupmod -g $HOST_GID docker || true && \
+    usermod -aG docker jenkins
 
-# USER jenkins
-# WORKDIR /var/jenkins_home
+USER jenkins
+WORKDIR /var/jenkins_home
 
 CMD ["jenkins"]
