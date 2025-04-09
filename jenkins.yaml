@@ -29,8 +29,8 @@ jenkins:
         jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
         serverUrl: "https://kubernetes.default"
         templates:
-          - name: "docker-agent"
-            label: "default"
+          - name: "jenkins-docker-agent"
+            label: "jenkins-docker-agent"
             containers:
             - name: "jnlp"
               image: pkonieczny321/node-docker:latest
@@ -46,63 +46,9 @@ jenkins:
             - hostPathVolume:
                 mountPath: "/var/run/docker.sock"
                 hostPath: "/var/run/docker.sock"
-  crumbIssuer:
-    standard:
-      excludeClientIPFromCrumb: true
-  disableRememberMe: true
-  labelAtoms:
-    - name: "built-in"
-    - name: "docker-agent"
-    - name: "jenkins-jenkins-agent"
-  markupFormatter: "plainText"
-  mode: NORMAL
-  myViewsTabBar: "standard"
-  nodeMonitors:
-    - "architecture"
-    - "clock"
-    - diskSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "swapSpace"
-    - tmpSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "responseTime"
-  numExecutors: 0
-  primaryView:
-    all:
-      name: "all"
-  projectNamingStrategy: "standard"
-  quietPeriod: 5
-  remotingSecurity:
-    enabled: true
-  scmCheckoutRetryCount: 0
-  securityRealm:
-    local:
-      allowsSignup: false
-      enableCaptcha: false
-      users:
-        - id: "admin"
-          name: "Jenkins Admin"
-          properties:
-            - "apiToken"
-            - "consoleUrlProvider"
-            - "mailer"
-            - "myView"
-            - preferredProvider:
-                providerId: "default"
-            - "timezone"
-            - "experimentalFlags"
-  slaveAgentPort: 50000
-  updateCenter:
-    sites:
-      - id: "default"
-        url: "https://updates.jenkins.io/update-center.json"
-  views:
-    - all:
-        name: "all"
-  viewsTabBar: "standard"
-
+            instanceCap: 5
+            idleMinutes: 90
+            slaveConnectionTimeout: 100
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
