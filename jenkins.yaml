@@ -31,24 +31,35 @@ jenkins:
         templates:
           - name: "jenkins-docker-agent"
             label: "jenkins-docker-agent"
-            containers:
-            - name: "jnlp"
-              image: pkonieczny321/node-docker:latest
-              alwaysPullImage: true
-              args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-              workingDir: /home/jenkins/agent
-              # command: []
-            # initContainers:
-            # - name: busybox
-            #   image: busybox:latest
-            #   command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
-            volumes:
-            - hostPathVolume:
-                mountPath: "/var/run/docker.sock"
-                hostPath: "/var/run/docker.sock"
-            instanceCap: 5
-            idleMinutes: 90
-            slaveConnectionTimeout: 100
+            yamls:
+              - |
+                apiVersion: v1
+                kind: Pod
+                metadata:
+                  labels:
+                    jenkins/jenkins-jenkins-agent: "true"
+                spec:
+                  initContainers:
+                    - name: fix-docker-socket-permissions
+                      image: busybox:latest
+                      command:
+                        - sh
+                        - -c
+                        - "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600"
+                      volumeMounts:
+                        - name: docker-socket
+                          mountPath: /var/run/docker.sock
+                  containers:
+                    - name: jnlp
+                      image: pkonieczny321/node-docker:latest
+                      alwaysPullImage: true
+                      args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
+                      workingDir: /home/jenkins/agent
+                  volumes:
+                    - name: docker-socket
+                      hostPath:
+                        path: /var/run/docker.sock
+                        type: Socket
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
