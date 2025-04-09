@@ -24,44 +24,62 @@ jenkins:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
   clouds:
-    - kubernetes:
-        name: "kubernetes"
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "e6887f82754037b1ea15523da768b5ac2a45fde84f3a30ab8636e5f5c53cd86e"
+        label: "jenkins-jenkins-agent"
+        name: "default"
         namespace: "jenkins"
-        jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-        serverUrl: "https://kubernetes.default"
-        templates:
-          - name: "jenkins-docker-agent"
-            label: "jenkins-docker-agent"
-            containers:
-              - name: "jnlp"
-                image: "pkonieczny321/node-docker:latest"
-                alwaysPullImage: true
-                args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-                workingDir: "/home/jenkins/agent"
-
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "default"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
   crumbIssuer:
-     standard:
-       excludeClientIPFromCrumb: true
+    standard:
+      excludeClientIPFromCrumb: true
   disableRememberMe: true
   labelAtoms:
-    - name: "built-in"
-    - name: "docker-agent"
-    - name: "jenkins-jenkins-agent"
+  - name: "built-in"
+  - name: "jenkins-jenkins-agent"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
   nodeMonitors:
-    - "architecture"
-    - "clock"
-    - diskSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "swapSpace"
-    - tmpSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "responseTime"
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
   numExecutors: 0
   primaryView:
     all:
@@ -76,25 +94,25 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-        - id: "admin"
-          name: "Jenkins Admin"
-          properties:
-            - "apiToken"
-            - "consoleUrlProvider"
-            - "mailer"
-            - "myView"
-            - preferredProvider:
-                providerId: "default"
-            - "timezone"
-            - "experimentalFlags"
+      - id: "admin"
+        name: "Jenkins Admin"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "mailer"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
   slaveAgentPort: 50000
   updateCenter:
     sites:
-      - id: "default"
-        url: "https://updates.jenkins.io/update-center.json"
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
   views:
-    - all:
-        name: "all"
+  - all:
+      name: "all"
   viewsTabBar: "standard"
 globalCredentialsConfiguration:
   configuration:
@@ -120,10 +138,12 @@ security:
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
-      - "jobBuildDiscarder"
+    - "jobBuildDiscarder"
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
+  gitHubPluginConfig:
+    hookUrl: "http://jenkins:8080/github-webhook/"
   location:
     adminAddress: "address not configured yet <nobody@nowhere>"
     url: "http://jenkins:8080/"
@@ -144,7 +164,8 @@ unclassified:
 tool:
   git:
     installations:
-      - home: "git"
-        name: "Default"
+    - home: "git"
+      name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
+    settingsProvider: "standard"
