@@ -142,8 +142,6 @@ unclassified:
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
-  gitHubPluginConfig:
-    hookUrl: "http://jenkins:8080/github-webhook/"
   location:
     adminAddress: "address not configured yet <nobody@nowhere>"
     url: "http://jenkins:8080/"
