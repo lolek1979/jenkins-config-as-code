@@ -31,3 +31,5 @@ WORKDIR /home/jenkins/agent
 # Optionally create a non-root user if your Jenkins agent requires it:
 # RUN adduser -D jenkins && chown -R jenkins:jenkins /home/jenkins/agent
 # USER jenkins
+ENTRYPOINT [ "/usr/local/bin/jenkins-agent" ]
+CMD [ "${computer.jnlpmac}", "${computer.name}" ]
