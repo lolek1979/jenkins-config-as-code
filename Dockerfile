@@ -1,68 +1,33 @@
-# Start from the official Jenkins image
-FROM jenkins/jenkins
+# Use the official Docker CLI image as the base
+FROM docker:20.10.21
 
-# Define build arguments (defaults based on image layers)
-ARG user=jenkins
-ARG group=jenkins
-ARG uid=1000
-ARG gid=1000
-ARG AGENT_WORKDIR=/home/jenkins/agent
-ARG VERSION=3301.v4363ddcca_4e7
-
-# Switch to root to install prerequisites and additional software
 USER root
 
-# --- Install Prerequisites and Docker ---
-RUN apt-get update -y && \
-    apt-get install -y \
-      apt-transport-https \
-      ca-certificates \
+# Install other utilities via apk
+RUN apk update && \
+    apk add --no-cache \
+      bash \
       curl \
-      gnupg-agent \
-      software-properties-common
+      git \
+      docker-compose \
+      openjdk11-jre
 
-# Set up Docker's official GPG key and repository for Debian
-RUN install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-    chmod a+r /etc/apt/keyrings/docker.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update -y && \
-    apt-get install -y \
-      docker-ce \
-      docker-ce-cli \
-      containerd.io \
-      docker-buildx-plugin \
-      docker-compose-plugin
+# Download and install kubectl manually
+# For aarch64 (ARM64) architecture, use arm64 in the URL. For AMD64, replace 'arm64' with 'amd64'.
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/kubectl
 
-# --- Install kubectl directly ---
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" && \
-    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
-    rm kubectl
+# (Optional) Install additional tools here (for example, maven or helm)
+# RUN apk add --no-cache maven helm
 
-# --- Switch to jenkins user temporarily ---
-USER jenkins
-ENV AGENT_WORKDIR=${AGENT_WORKDIR}
+# Create a workspace directory
+RUN mkdir -p /home/jenkins/agent
 
-# (Optional) Here you may add RUN steps as needed under the jenkins user.
-# Then switch back to root to copy the agent launcher.
+# Set the working directory to the agent's working directory
+WORKDIR /home/jenkins/agent
 
-USER root
-
-# --- Adjust ownership: Set Jenkins user UID and add Jenkins to the docker group ---
-RUN usermod -u ${uid} jenkins && \
-    groupmod -g ${gid} docker || true && \
-    usermod -aG docker jenkins
-
-# --- Switch back to jenkins ---
-USER jenkins
-WORKDIR /home/jenkins
-
-# Define volumes (as declared in the official image)
-VOLUME ["/home/jenkins/.jenkins", "/home/jenkins/agent"]
-
-# Set metadata labels (optional)
-LABEL org.opencontainers.image.vendor="Jenkins" \
-      org.opencontainers.image.title="Official Jenkins Inbound Agent - Custom with Docker" 
-
-# Set the default entrypoint that starts the agent using the provided jenkins-agent launcher.
-ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
+# In this example, we remain as root.
+# Optionally create a non-root user if your Jenkins agent requires it:
+# RUN adduser -D jenkins && chown -R jenkins:jenkins /home/jenkins/agent
+# USER jenkins
