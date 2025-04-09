@@ -31,40 +31,41 @@ jenkins:
         templates:
           - name: "custom-docker-agent"
             label: "docker-agent"
-            yaml: |
-              apiVersion: v1
-              kind: Pod
-              metadata:
-                labels:
-                  jenkins/jenkins-jenkins-agent: "true"
-              spec:
-                initContainers:
-                  - name: fix-docker-socket-permissions
-                    image: busybox
-                    command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock" ]
-                    volumeMounts:
-                      - name: docker-socket
-                        mountPath: /var/run/docker.sock
-                containers:
-                  - name: jnlp
-                    image: pkonieczny321/node-docker:latest
-                    args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
-                    workingDir: /home/jenkins/agent
-                    resources:
-                      limits:
-                        cpu: "512m"
-                        memory: "512Mi"
-                      requests:
-                        cpu: "512m"
-                        memory: "512Mi"
-                    volumeMounts:
-                      - name: docker-socket
-                        mountPath: /var/run/docker.sock
-                volumes:
-                  - name: docker-socket
-                    hostPath:
-                      path: /var/run/docker.sock
-                      type: Socket
+            yamls:
+              - |
+                apiVersion: v1
+                kind: Pod
+                metadata:
+                  labels:
+                    jenkins/jenkins-jenkins-agent: "true"
+                spec:
+                  initContainers:
+                    - name: fix-docker-socket-permissions
+                      image: busybox
+                      command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock" ]
+                      volumeMounts:
+                        - name: docker-socket
+                          mountPath: /var/run/docker.sock
+                  containers:
+                    - name: jnlp
+                      image: pkonieczny321/node-docker:latest
+                      args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
+                      workingDir: /home/jenkins/agent
+                      resources:
+                        limits:
+                          cpu: "512m"
+                          memory: "512Mi"
+                        requests:
+                          cpu: "512m"
+                          memory: "512Mi"
+                      volumeMounts:
+                        - name: docker-socket
+                          mountPath: /var/run/docker.sock
+                  volumes:
+                    - name: docker-socket
+                      hostPath:
+                        path: /var/run/docker.sock
+                        type: Socket
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
