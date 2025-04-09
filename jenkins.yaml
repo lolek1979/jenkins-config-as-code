@@ -38,10 +38,10 @@ jenkins:
               args: [ "^${computer.jnlpmac}", "^${computer.name}" ]
               workingDir: /home/jenkins/agent
               # command: []
-            # initContainers:
-            # - name: busybox
-            #   image: busybox:latest
-            #   command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
+            initContainers:
+            - name: busybox
+              image: busybox:latest
+              command: [ "sh", "-c", "chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock && sleep 3600" ]
             volumes:
             - hostPathVolume:
                 mountPath: "/var/run/docker.sock"
