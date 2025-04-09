@@ -52,7 +52,6 @@ globalCredentialsConfiguration:
 appearance:
   prism:
     theme: PRISM
-
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -60,13 +59,13 @@ security:
     usageStatisticsEnabled: true
   cps:
     hideSandbox: false
+  scriptApproval:
+    forceSandbox: false
   gitHooks:
     allowedOnAgents: false
     allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
-  scriptApproval:
-    forceSandbox: false
 
 unclassified:
   buildDiscarders:
