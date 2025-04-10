@@ -59,24 +59,34 @@ jenkins:
             serviceAccount: "default"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
-            runAsGroup: 20``
-            volumes:
-              - hostPathVolume:
-                  mountPath: "/var/run/docker.sock"
-                  hostPath: "/var/run/docker.sock"
-            containers:
-              - name: "jnlp"
-                image: "pkonieczny321/jenkins-docker-agent:latest"
-                args: "^${computer.jnlpmac} ^${computer.name}"
-                workingDir: "/home/jenkins/agent"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
-                envVars:
-                  - envVar:
-                      key: "JENKINS_URL"
-                      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+            yaml: |-
+              spec:
+                securityContext:
+                  fsGroup: 999
+                containers:
+                  - name: "jnlp"
+                    image: "pkonieczny321/jenkins-docker-agent:latest"
+                    args:
+                      - "^${computer.jnlpmac}"
+                      - "^${computer.name}"
+                    workingDir: "/home/jenkins/agent"
+                    resources:
+                      limits:
+                        cpu: "512m"
+                        memory: "512Mi"
+                      requests:
+                        cpu: "512m"
+                        memory: "512Mi"
+                    env:
+                      - name: "JENKINS_URL"
+                        value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                    volumeMounts:
+                      - name: docker-socket
+                        mountPath: /var/run/docker.sock
+                volumes:
+                  - name: docker-socket
+                    hostPath:
+                      path: /var/run/docker.sock
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true

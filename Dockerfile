@@ -40,6 +40,11 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.21.tgz" | \
     tar xz --strip 1 -C /usr/local/bin docker
 
+
+# Ensure docker group matches GID on host
+RUN groupadd -g 999 docker \
+&& usermod -aG docker jenkins
+
 # Create a workspace directory for the Jenkins agent and adjust ownership for the jenkins user.
 RUN mkdir -p /home/jenkins/agent && chown -R jenkins:jenkins /home/jenkins/agent
 WORKDIR /home/jenkins/agent
