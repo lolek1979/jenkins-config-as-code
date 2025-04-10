@@ -59,6 +59,7 @@ jenkins:
             serviceAccount: "default"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
+            runAsUser: 1000
             runAsGroup: 999
             volumes:
               - hostPathVolume:
