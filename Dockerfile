@@ -42,7 +42,13 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 # Download and install the Docker CLI (static binary for amd64)
 RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.21.tgz" | \
     tar xz --strip 1 -C /usr/local/bin docker
+# Install Helm (latest stable)
+RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+# Install Argo CD CLI
+RUN curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && \
+    chmod +x /usr/local/bin/argocd
+    
 # Create a workspace directory for the Jenkins agent and adjust ownership for the jenkins user.
 RUN mkdir -p /home/jenkins/agent && chown -R jenkins:jenkins /home/jenkins/agent
 WORKDIR /home/jenkins/agent
