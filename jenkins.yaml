@@ -59,7 +59,7 @@ jenkins:
             serviceAccount: "default"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
-            runAsGroup: 20
+            runAsGroup: 20``
             volumes:
               - hostPathVolume:
                   mountPath: "/var/run/docker.sock"
