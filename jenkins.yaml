@@ -35,7 +35,6 @@ jenkins:
           - key: "jenkins/jenkins-jenkins-agent"
             value: "true"
         templates:
-          # Default JNLP Agent Template (unchanged)
           - name: "jenkins-jenkins-agent"
             label: "jenkins-jenkins-agent"
             namespace: "jenkins"
@@ -52,32 +51,32 @@ jenkins:
                 resourceLimitMemory: "512Mi"
                 resourceRequestCpu: "512m"
                 resourceRequestMemory: "512Mi"
-          # Custom Docker-enabled Agent Template:
-              - name: "docker-agent"
-                label: "docker-agent"
-                namespace: "jenkins"
-                podRetention: "never"
-                serviceAccount: "default"
-                nodeUsageMode: "NORMAL"
-                yamlMergeStrategy: "override"
-                runAsGroup: 20
-                volumes:
-                  - hostPathVolume:
-                      mountPath: "/var/run/docker.sock"
-                      hostPath: "/var/run/docker.sock"
-                containers:
-                  - name: "jnlp"
-                    image: "pkonieczny321/jenkins-docker-agent:latest"
-                    args: "^${computer.jnlpmac} ^${computer.name}"
-                    workingDir: "/home/jenkins/agent"
-                    resourceLimitCpu: "512m"
-                    resourceLimitMemory: "512Mi"
-                    resourceRequestCpu: "512m"
-                    resourceRequestMemory: "512Mi"
-                    envVars:
-                      - envVar:
-                          key: "JENKINS_URL"
-                          value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+
+          - name: "docker-agent"
+            label: "docker-agent"
+            namespace: "jenkins"
+            podRetention: "never"
+            serviceAccount: "default"
+            nodeUsageMode: "NORMAL"
+            yamlMergeStrategy: "override"
+            runAsGroup: 20
+            volumes:
+              - hostPathVolume:
+                  mountPath: "/var/run/docker.sock"
+                  hostPath: "/var/run/docker.sock"
+            containers:
+              - name: "jnlp"
+                image: "pkonieczny321/jenkins-docker-agent:latest"
+                args: "^${computer.jnlpmac} ^${computer.name}"
+                workingDir: "/home/jenkins/agent"
+                resourceLimitCpu: "512m"
+                resourceLimitMemory: "512Mi"
+                resourceRequestCpu: "512m"
+                resourceRequestMemory: "512Mi"
+                envVars:
+                  - envVar:
+                      key: "JENKINS_URL"
+                      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
