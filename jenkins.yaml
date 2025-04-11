@@ -141,7 +141,6 @@ jenkins:
   viewsTabBar: "standard"
 
 jobs:
-  - (( replace ))
   - script: >
       pipelineJob('sw-movie-app') {
         definition {
