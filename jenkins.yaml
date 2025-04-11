@@ -1,104 +1,110 @@
 credentials:
   system:
     domainCredentials:
-      - credentials:
-          - usernamePassword:
-              description: "Docker Hub login"
-              id: "docker-hub-creds"
-              username: "pkonieczny321"
-              password: "{AQAAABAAAABAW+BowRO3vxZ2cMn7T/20/hicwnYXtKJmyqQnQIvjG7ub7CPWEodOfRIxnyhNVFrYmDCswln0MBlKp2OnPi1u+lcggD1qW+MDL0SOrf6Nq/Q=}"
-              scope: GLOBAL
-          - usernamePassword:
-              description: "Pulling/pushing to GitHub"
-              id: "github-creds"
-              username: "lolek1979"
-              password: "{AQAAABAAAACwoX8XNU0hDRAtJMSORkTufohC1h3Y/DBHvmo0LxTW3qRtpv2ocXyR+e4vcLGlGuUgCr8KHVoyb5Un86dQNsM7mfi1/KFkbNb6uHpAjtcupV1WVm/u0HD2P8FJTIGsIdUJvSjv2HR67FpM/MJ649IBABIxPBO0xdueVCvEgE1P8uwoSJF199WzB2oBZCsz48zlZFYVtTdYBlQF57E/xH83XFmQULnxBPz6u/m0HsaupnaSz70rplT4Zt+PhN7ytZz0}"
-              scope: GLOBAL
-          - string:
-              description: "Argo CD API token for deployments"
-              id: "argocd-token"
-              secret: "{AQAAABAAAAFwXJUHNNZFp4pKJ0G482yrlo8IlFROXc5y3z1jWXw6U7wcpFoHkxDiXzj040/Og+vPzkgIrgfcrH7wWo/5zCMoX52eagGW6JmV4RvNd+oGNk2JWDvRTCVg2Hm6rsZ6FmG4VaLgzHQ9G/Ora1G4J9oI8rwcEK8mXNUevFdq2NC2KFYSnE+ygtrhSPVhgSgadvSm4Zy+qS1PbFkmSd2CI6o/DiliPdck5IiPqpg+yVu0BMblTheK9EVRbselpHnLFbIb+SxJ7wwUV/1RIvG7pjNEcilPV5aBNWDdZ1LFUG5etN7NxH57PFUym+cdf9g+HK96EPcdboR3z6hMhNvIp4G5ZMQE4/8g5tbQdsL6H7rjQVRgSDU59VgE+zFDKfti/+akQ7jZWpwfATG6Hf62cMSdx7I5Lgpek/nX7sbpFmm18YQe/j12oCYxZwvpjRyQqYNkeXcUhRJdfz0sYVs3cA0WyhYi346wl0DyCpoCV/b5wt/oJa8VZnrjNNlnoSANEJkV}"
-              scope: GLOBAL
-
+    - credentials:
+      - usernamePassword:
+          description: "Docker Hub login"
+          id: "docker-hub-creds"
+          password: "{AQAAABAAAAAwjJ7dGIbk67AE1qoOTZpzPRsbvg8WRLR4LGuCiYu2XnlFvg5pffdjEcauOb5SNeM0w8zA1xhHJ5ES2FzCyQtmBw==}"
+          scope: GLOBAL
+          username: "pkonieczny321"
+      - usernamePassword:
+          description: "Pulling/pushing to GitHub"
+          id: "github-creds"
+          password: "{AQAAABAAAAEQMhfKMtK3tl4E/xU8AOWUrcFpu2oib85QeD2Rb3g44PBr+SiXat9HBsYEDGH4n1vtO0iPtcAinrLeaySxYo1sqPCS41trZElA5k/obY4JmP58ua5IgG7KWtLPF9d8m42joER53K/X+v+5rFaqPg/m4jhxLAYK0Mws0LEo/B4fxCpGe75VsmL5HPsn6pzVNSoRT7a0kqEqrjmjzk1e0iX40zidJA1IrnbLo7z/q5IJ6PVDdsThEHiSeVVZDiuON6zbyVNQoJELiAkmtCMFJbzs8VZ6PfJXrBbgH4yv+UaHpgWbAmJn4XVEjqE8mhw4MP6ltiHixfPmerdbhe9ylYAlTTvTFyMQUXM2sqTVE7ni1D19Vkvy8YcAdES/ohw6MI19}"
+          scope: GLOBAL
+          username: "lolek1979"
+      - string:
+          description: "Argo CD API token for deployments"
+          id: "argocd-token"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAIQkeZXw55SrDIlREqR0NNqQaPqKEPQnRptAa0Rb/F5NV2jgHJfKrYffXqiB5YI7ZVZWiS50ZE6B1l1Iae7mS7ziU8Zarh2brbzIKh1w6lfulRs2VaS3W0T7HXLUzA74dbFRtBcYjhhvcyrwWbml+SbUTackWVu9WuuKav/bBPNvJ7351yhEH6mHqwVreH4fU7GVr0eCbxln7ZZcHK5w0q88Bf0QWUGE2HXxPz9NoAWsaav1GUdPsbvfanzs6CjOgpNIqBJkCVUBfwtCDTjCP2uvWLUpjOta4IjMI47Dv7qb0mkX+P73H1XotTXqubuAFqSu5Az3LgdJ7uPmdSMrJGeftluzYm50rbQkF3G1PMhqjZqtpf4cGZ3Twtt2gzM1A+KC5mP4eu247fKGQoexqUV0sqNGUxTXlxJHmQso56lgvN57Rj1RUQAwyOpD8aAlLDxsIs6rspSdLLN4PdNhLa8p5TtZe8rxWaoyb+WR8uNBbW9L+EQNOGmvRQrKEPzAbrfoaSf5sjQkTgrh9bEb8C3Jbu7CHO7BSIcQckHzX7b5a6kMux89lCA03kNraI/5NCYn2nVK1XHcrzrnaPR0MPv315wuDuhMfrhjqTJnRVmxiIAX8HBGim/NYbtESlZGfnhJfRoKQcx9JLgZALERcNo1cFtA1BWSuSLoZrMkeHN2hEfDZ+ndrGgkLqgLxqYnRN7TDhVsGOAQ9/sn3sT8HGVDw==}"
+      - fileSystemServiceAccountCredential:
+          id: "4fbfc7fa-f30f-4a61-86b3-ad2515aea2e5"
+          scope: GLOBAL
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
   clouds:
-    - kubernetes:
-        name: "kubernetes"
+  - kubernetes:
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "d5e6f291-c609-4adf-8f2c-68c85ae7cb42"
+        label: "jenkins-jenkins-agent"
+        name: "jenkins-jenkins-agent"
         namespace: "jenkins"
-        jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-        serverUrl: "https://kubernetes.default"
-        podLabels:
-          - key: "jenkins/jenkins-jenkins-agent"
-            value: "true"
-        templates:
-          - name: "jenkins-jenkins-agent"
-            label: "jenkins-jenkins-agent"
-            namespace: "jenkins"
-            podRetention: "never"
-            serviceAccount: "jenkins"
-            nodeUsageMode: "NORMAL"
-            yamlMergeStrategy: "override"
-            containers:
-              - name: "jnlp"
-                image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
-                args: "^${computer.jnlpmac} ^${computer.name}"
-                workingDir: "/home/jenkins/agent"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
-
-          - name: "docker-agent"
-            label: "docker-agent"
-            namespace: "jenkins"
-            podRetention: "never"
-            serviceAccount: "jenkins"
-            nodeUsageMode: "NORMAL"
-            yamlMergeStrategy: "override"
-            runAsUser: 0
-            volumes:
-              - hostPathVolume:
-                  mountPath: "/var/run/docker.sock"
-                  hostPath: "/var/run/docker.sock"
-            containers:
-              - name: "jnlp"
-                image: "pkonieczny321/jenkins-docker-agent:latest"
-                args: "^${computer.jnlpmac} ^${computer.name}"
-                workingDir: "/home/jenkins/agent"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
-                envVars:
-                  - envVar:
-                      key: "JENKINS_URL"
-                      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "jenkins"
+        yamlMergeStrategy: "override"
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          image: "pkonieczny321/jenkins-docker-agent:latest"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "383b2e23-f0d6-45d9-88d3-30ec5f026579"
+        label: "docker-agent"
+        name: "docker-agent"
+        namespace: "jenkins"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        runAsUser: "0"
+        serviceAccount: "jenkins"
+        volumes:
+        - hostPathVolume:
+            hostPath: "/var/run/docker.sock"
+            mountPath: "/var/run/docker.sock"
+            readOnly: false
+        yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
   disableRememberMe: true
+  disabledAdministrativeMonitors:
+  - "hudson.diagnosis.ReverseProxySetupMonitor"
   labelAtoms:
-    - name: "built-in"
-    - name: "docker-agent"
-    - name: "jenkins-jenkins-agent"
+  - name: "built-in"
+  - name: "docker-agent"
+  - name: "jenkins-jenkins-agent"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
   nodeMonitors:
-    - "architecture"
-    - "clock"
-    - diskSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "swapSpace"
-    - tmpSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "responseTime"
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
   numExecutors: 0
   primaryView:
     all:
@@ -113,36 +119,33 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-        - id: "admin"
-          name: "Jenkins Admin"
-          properties:
-            - "apiToken"
-            - "consoleUrlProvider"
-            - "mailer"
-            - "myView"
-            - preferredProvider:
-                providerId: "default"
-            - "timezone"
-            - "experimentalFlags"
+      - id: "admin"
+        name: "Jenkins Admin"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "mailer"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
   slaveAgentPort: 50000
   updateCenter:
     sites:
-      - id: "default"
-        url: "https://updates.jenkins.io/update-center.json"
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
   views:
-    - all:
-        name: "all"
+  - all:
+      name: "all"
   viewsTabBar: "standard"
-
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
-
 appearance:
   prism:
     theme: PRISM
-
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -157,11 +160,10 @@ security:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   scriptApproval:
     forceSandbox: false
-
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
-      - "jobBuildDiscarder"
+    - "jobBuildDiscarder"
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -182,12 +184,11 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
-
 tool:
   git:
     installations:
-      - home: "git"
-        name: "Default"
+    - home: "git"
+      name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
