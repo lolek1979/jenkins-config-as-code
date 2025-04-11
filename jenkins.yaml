@@ -142,10 +142,23 @@ jenkins:
 jobs:
   - script: >
       pipelineJob('sw-movie-app') {
-        parameters {
-          stringParam('imageName', 'pkonieczny321/sw-movie-app', 'Docker image name')
-          stringParam('imageTag', '1.0.0', 'Docker image tag')
+        properties {
+          parametersDefinitionProperty {
+            parameterDefinitions {
+              stringParameterDefinition {
+                name('imageName')
+                defaultValue('pkonieczny321/sw-movie-app')
+                description('Docker image name')
+              }
+              stringParameterDefinition {
+                name('imageTag')
+                defaultValue('1.0.0')
+                description('Docker image tag')
+              }
+            }
+          }
         }
+
         definition {
           cpsScm {
             scm {
