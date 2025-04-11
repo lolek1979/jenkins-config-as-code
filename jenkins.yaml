@@ -159,6 +159,7 @@ jobs:
 
         definition {
           cpsScm {
+            lightweight(true)
             scm {
               git {
                 remote {
