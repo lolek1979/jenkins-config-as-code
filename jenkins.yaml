@@ -165,8 +165,6 @@ security:
     allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
-  scriptApproval:
-    forceSandbox: false
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
