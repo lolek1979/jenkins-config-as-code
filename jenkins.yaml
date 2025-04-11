@@ -141,8 +141,9 @@ jenkins:
   viewsTabBar: "standard"
 
 jobs:
+  - (( replace ))
   - script: >
-      pipelineJob('sw-movie-app-pipeline') {
+      pipelineJob('sw-movie-app') {
         definition {
           cpsScm {
             scm {
