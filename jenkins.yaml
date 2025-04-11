@@ -5,89 +5,106 @@ credentials:
       - usernamePassword:
           description: "Docker Hub login"
           id: "docker-hub-creds"
-          password: "{AQAAABAAAAAwjJ7d...}"
+          password: "{AQAAABAAAAAwjJ7dGIbk67AE1qoOTZpzPRsbvg8WRLR4LGuCiYu2XnlFvg5pffdjEcauOb5SNeM0w8zA1xhHJ5ES2FzCyQtmBw==}"
           scope: GLOBAL
           username: "pkonieczny321"
       - usernamePassword:
           description: "Pulling/pushing to GitHub"
           id: "github-creds"
-          password: "{AQAAABAAAAEQMhfK...}"
+          password: "{AQAAABAAAAEQMhfKMtK3tl4E/xU8AOWUrcFpu2oib85QeD2Rb3g44PBr+SiXat9HBsYEDGH4n1vtO0iPtcAinrLeaySxYo1sqPCS41trZElA5k/obY4JmP58ua5IgG7KWtLPF9d8m42joER53K/X+v+5rFaqPg/m4jhxLAYK0Mws0LEo/B4fxCpGe75VsmL5HPsn6pzVNSoRT7a0kqEqrjmjzk1e0iX40zidJA1IrnbLo7z/q5IJ6PVDdsThEHiSeVVZDiuON6zbyVNQoJELiAkmtCMFJbzs8VZ6PfJXrBbgH4yv+UaHpgWbAmJn4XVEjqE8mhw4MP6ltiHixfPmerdbhe9ylYAlTTvTFyMQUXM2sqTVE7ni1D19Vkvy8YcAdES/ohw6MI19}"
           scope: GLOBAL
           username: "lolek1979"
       - string:
           description: "Argo CD API token for deployments"
           id: "argocd-token"
           scope: GLOBAL
-          secret: "{AQAAABAAAAIQkeZX...}"
+          secret: "{AQAAABAAAAIQkeZXw55SrDIlREqR0NNqQaPqKEPQnRptAa0Rb/F5NV2jgHJfKrYffXqiB5YI7ZVZWiS50ZE6B1l1Iae7mS7ziU8Zarh2brbzIKh1w6lfulRs2VaS3W0T7HXLUzA74dbFRtBcYjhhvcyrwWbml+SbUTackWVu9WuuKav/bBPNvJ7351yhEH6mHqwVreH4fU7GVr0eCbxln7ZZcHK5w0q88Bf0QWUGE2HXxPz9NoAWsaav1GUdPsbvfanzs6CjOgpNIqBJkCVUBfwtCDTjCP2uvWLUpjOta4IjMI47Dv7qb0mkX+P73H1XotTXqubuAFqSu5Az3LgdJ7uPmdSMrJGeftluzYm50rbQkF3G1PMhqjZqtpf4cGZ3Twtt2gzM1A+KC5mP4eu247fKGQoexqUV0sqNGUxTXlxJHmQso56lgvN57Rj1RUQAwyOpD8aAlLDxsIs6rspSdLLN4PdNhLa8p5TtZe8rxWaoyb+WR8uNBbW9L+EQNOGmvRQrKEPzAbrfoaSf5sjQkTgrh9bEb8C3Jbu7CHO7BSIcQckHzX7b5a6kMux89lCA03kNraI/5NCYn2nVK1XHcrzrnaPR0MPv315wuDuhMfrhjqTJnRVmxiIAX8HBGim/NYbtESlZGfnhJfRoKQcx9JLgZALERcNo1cFtA1BWSuSLoZrMkeHN2hEfDZ+ndrGgkLqgLxqYnRN7TDhVsGOAQ9/sn3sT8HGVDw==}"
       - fileSystemServiceAccountCredential:
           id: "4fbfc7fa-f30f-4a61-86b3-ad2515aea2e5"
           scope: GLOBAL
-
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
   clouds:
-    - kubernetes:
-        name: "kubernetes"
+  - kubernetes:
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "d5e6f291-c609-4adf-8f2c-68c85ae7cb42"
+        label: "jenkins-jenkins-agent"
+        name: "jenkins-jenkins-agent"
         namespace: "jenkins"
-        serverUrl: "https://kubernetes.default"
-        jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-        jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-        templates:
-          - name: "jenkins-jenkins-agent"
-            label: "jenkins-jenkins-agent"
-            serviceAccount: "jenkins"
-            containers:
-              - name: "jnlp"
-                image: "jenkins/inbound-agent:3301.v4363ddcca_4e7-3"
-                args: "^${computer.jnlpmac} ^${computer.name}"
-                workingDir: "/home/jenkins/agent"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-          - name: "docker-agent"
-            label: "docker-agent"
-            serviceAccount: "jenkins"
-            containers:
-              - name: "jnlp"
-                image: "pkonieczny321/jenkins-docker-agent:latest"
-                args: "^${computer.jnlpmac} ^${computer.name}"
-                workingDir: "/home/jenkins/agent"
-                resourceRequestCpu: "512m"
-                resourceRequestMemory: "512Mi"
-                resourceLimitCpu: "512m"
-                resourceLimitMemory: "512Mi"
-            volumes:
-              - hostPathVolume:
-                  mountPath: "/var/run/docker.sock"
-                  hostPath: "/var/run/docker.sock"
-                  readOnly: false
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "jenkins"
+        yamlMergeStrategy: "override"
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          image: "pkonieczny321/jenkins-docker-agent:latest"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "383b2e23-f0d6-45d9-88d3-30ec5f026579"
+        label: "docker-agent"
+        name: "docker-agent"
+        namespace: "jenkins"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        runAsUser: "0"
+        serviceAccount: "jenkins"
+        volumes:
+        - hostPathVolume:
+            hostPath: "/var/run/docker.sock"
+            mountPath: "/var/run/docker.sock"
+            readOnly: false
+        yamlMergeStrategy: "override"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
   disableRememberMe: true
   disabledAdministrativeMonitors:
-    - "hudson.diagnosis.ReverseProxySetupMonitor"
+  - "hudson.diagnosis.ReverseProxySetupMonitor"
   labelAtoms:
-    - name: "built-in"
-    - name: "docker-agent"
-    - name: "jenkins-jenkins-agent"
+  - name: "built-in"
+  - name: "docker-agent"
+  - name: "jenkins-jenkins-agent"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
   nodeMonitors:
-    - "architecture"
-    - "clock"
-    - diskSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "swapSpace"
-    - tmpSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "responseTime"
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
   numExecutors: 0
   primaryView:
     all:
@@ -102,27 +119,26 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-        - id: "admin"
-          name: "Jenkins Admin"
-          properties:
-            - "apiToken"
-            - "consoleUrlProvider"
-            - "mailer"
-            - "myView"
-            - preferredProvider:
-                providerId: "default"
-            - "timezone"
-            - "experimentalFlags"
+      - id: "admin"
+        name: "Jenkins Admin"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "mailer"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
   slaveAgentPort: 50000
   updateCenter:
     sites:
-      - id: "default"
-        url: "https://updates.jenkins.io/update-center.json"
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
   views:
-    - all:
-        name: "all"
+  - all:
+      name: "all"
   viewsTabBar: "standard"
-
 jobs:
   - script: >
       pipelineJob('sw-movie-app') {
@@ -145,7 +161,6 @@ jobs:
           }
         }
       }
-
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
@@ -165,10 +180,12 @@ security:
     allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  scriptApproval:
+    forceSandbox: false
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
-      - "jobBuildDiscarder"
+    - "jobBuildDiscarder"
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -192,8 +209,8 @@ unclassified:
 tool:
   git:
     installations:
-      - home: "git"
-        name: "Default"
+    - home: "git"
+      name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
