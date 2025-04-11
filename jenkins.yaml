@@ -60,8 +60,9 @@ jenkins:
                 resourceLimitCpu: "512m"
                 resourceLimitMemory: "512Mi"
                 envVars:
-                  - name: "JENKINS_URL"
-                    value: "http://jenkins.jenkins.svc.cluster.local:8080"
+                - envVar:
+                    key: "JENKINS_URL"
+                    value: "http://jenkins.jenkins.svc.cluster.local:8080/"
             volumes:
               - hostPathVolume:
                   mountPath: "/var/run/docker.sock"
