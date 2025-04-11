@@ -218,8 +218,6 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
-  kubernetesPluginConfiguration:
-    waitForPod: true
 tool:
   git:
     installations:
