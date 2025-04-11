@@ -39,7 +39,7 @@ jenkins:
             label: "jenkins-jenkins-agent"
             namespace: "jenkins"
             podRetention: "never"
-            serviceAccount: "default"
+            serviceAccount: "jenkins"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
             containers:
@@ -56,7 +56,7 @@ jenkins:
             label: "docker-agent"
             namespace: "jenkins"
             podRetention: "never"
-            serviceAccount: "default"
+            serviceAccount: "jenkins"
             nodeUsageMode: "NORMAL"
             yamlMergeStrategy: "override"
             runAsUser: 0
