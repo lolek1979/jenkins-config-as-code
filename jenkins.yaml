@@ -139,6 +139,31 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+
+jobs:
+  - script: >
+      pipelineJob('sw-movie-app-pipeline') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/lolek1979/sw-movie-app.git')
+                  credentials('github-creds')
+                }
+                branches('*/main')
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+        properties {
+          parameters {
+            stringParam('imageName', 'pkonieczny321/sw-movie-app', 'Docker image name')
+            stringParam('imageTag', '1.0.0', 'Docker image tag')
+          }
+        }
+      }
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
