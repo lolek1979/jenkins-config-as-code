@@ -143,6 +143,10 @@ jenkins:
 jobs:
   - script: >
       pipelineJob('sw-movie-app') {
+        parameters {
+          stringParam('imageName', 'pkonieczny321/sw-movie-app', 'Docker image name')
+          stringParam('imageTag', '1.0.0', 'Docker image tag')
+        }
         definition {
           cpsScm {
             scm {
@@ -156,10 +160,6 @@ jobs:
             }
             scriptPath 'Jenkinsfile'
           }
-        }
-        parameters {
-          stringParam('imageName', 'pkonieczny321/sw-movie-app', 'Docker image name')
-          stringParam('imageTag', '1.0.0', 'Docker image tag')
         }
       }
 globalCredentialsConfiguration:
