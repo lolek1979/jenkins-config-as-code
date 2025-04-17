@@ -5,23 +5,20 @@ credentials:
       - usernamePassword:
           description: "Docker Hub login"
           id: "docker-hub-creds"
-          password: "{AQAAABAAAAAwjJ7dGIbk67AE1qoOTZpzPRsbvg8WRLR4LGuCiYu2XnlFvg5pffdjEcauOb5SNeM0w8zA1xhHJ5ES2FzCyQtmBw==}"
+          password: "{AQAAABAAAAAw41SAbybbn8XRz1stj/ymz6sOLTy/MFkggcZLZphgLEYHLgTb59wiHyckkIHrM0c2JaTBJfVyZ7LD0i2z2ayaKA==}"
           scope: GLOBAL
           username: "pkonieczny321"
       - usernamePassword:
           description: "Pulling/pushing to GitHub"
           id: "github-creds"
-          password: "{AQAAABAAAAEQMhfKMtK3tl4E/xU8AOWUrcFpu2oib85QeD2Rb3g44PBr+SiXat9HBsYEDGH4n1vtO0iPtcAinrLeaySxYo1sqPCS41trZElA5k/obY4JmP58ua5IgG7KWtLPF9d8m42joER53K/X+v+5rFaqPg/m4jhxLAYK0Mws0LEo/B4fxCpGe75VsmL5HPsn6pzVNSoRT7a0kqEqrjmjzk1e0iX40zidJA1IrnbLo7z/q5IJ6PVDdsThEHiSeVVZDiuON6zbyVNQoJELiAkmtCMFJbzs8VZ6PfJXrBbgH4yv+UaHpgWbAmJn4XVEjqE8mhw4MP6ltiHixfPmerdbhe9ylYAlTTvTFyMQUXM2sqTVE7ni1D19Vkvy8YcAdES/ohw6MI19}"
+          password: "{AQAAABAAAAGQ5dfOpQo3cPgWIhRCgpoDcWWfcpcicgxPBNFgEGquJAwbJZz0k0yQ+FuUKI4WHzp8y7Q9Sa4zdbyV+2H+alo0DxcC+3rjiXeCVojS4QRS+Tpx2xCVyRshDOIXWytqwaXKA3Lwax4b12dlHZiX/5Ine6MP1zxlk5fmQ+3N1ERMl2qc8Suu4bfgOm6A9ZaiSXw5+tBCVKR5nomP0UqjYQrdc0x4QJAUrl5wT2BtSnYAFo4yb7v4n7rRbXm2obAVrVYAO/xa13pf9xXYabS3gGt6MnQLxlD5dhff3ImfS8F+3FtZGQ0SkSMoZwErTsfgPH7sLmFfdinsZA+Py+NQv4Wp56OYpFvNBO2V5pTOd2uKqUdBICLxqMz/7hVbUIlsE9+8ffKj2712LZOF/ksJy9Ule5GjIpCbXqbABbwlx0eYgQYch4S2rngKOYOTme7aeL2ze539frn30T2igXu6cAh18YL1Lhi8O2zxeyu9SO/eJkUOY3V19xDoFCLeAekYgH66iVniAnPN+s0s5kOSmSLh+j5GqckH4auUTS6CuJklaEI=}"
           scope: GLOBAL
           username: "lolek1979"
       - string:
           description: "Argo CD API token for deployments"
           id: "argocd-token"
           scope: GLOBAL
-          secret: "{AQAAABAAAAIQkeZXw55SrDIlREqR0NNqQaPqKEPQnRptAa0Rb/F5NV2jgHJfKrYffXqiB5YI7ZVZWiS50ZE6B1l1Iae7mS7ziU8Zarh2brbzIKh1w6lfulRs2VaS3W0T7HXLUzA74dbFRtBcYjhhvcyrwWbml+SbUTackWVu9WuuKav/bBPNvJ7351yhEH6mHqwVreH4fU7GVr0eCbxln7ZZcHK5w0q88Bf0QWUGE2HXxPz9NoAWsaav1GUdPsbvfanzs6CjOgpNIqBJkCVUBfwtCDTjCP2uvWLUpjOta4IjMI47Dv7qb0mkX+P73H1XotTXqubuAFqSu5Az3LgdJ7uPmdSMrJGeftluzYm50rbQkF3G1PMhqjZqtpf4cGZ3Twtt2gzM1A+KC5mP4eu247fKGQoexqUV0sqNGUxTXlxJHmQso56lgvN57Rj1RUQAwyOpD8aAlLDxsIs6rspSdLLN4PdNhLa8p5TtZe8rxWaoyb+WR8uNBbW9L+EQNOGmvRQrKEPzAbrfoaSf5sjQkTgrh9bEb8C3Jbu7CHO7BSIcQckHzX7b5a6kMux89lCA03kNraI/5NCYn2nVK1XHcrzrnaPR0MPv315wuDuhMfrhjqTJnRVmxiIAX8HBGim/NYbtESlZGfnhJfRoKQcx9JLgZALERcNo1cFtA1BWSuSLoZrMkeHN2hEfDZ+ndrGgkLqgLxqYnRN7TDhVsGOAQ9/sn3sT8HGVDw==}"
-      - fileSystemServiceAccountCredential:
-          id: "4fbfc7fa-f30f-4a61-86b3-ad2515aea2e5"
-          scope: GLOBAL
+          secret: "{AQAAABAAAADwDijb2qAChQpXoM4rxYDtKeuQnW9CM/TkQQiXrO8yOyXf6Ba4/bI8uHLU//fN1W6wRaSqHHqf0qAz3A2ZHJoFFKwTGapHhO3iohgdMlyVYHi0JeZsnfK3lV27rOKf+TXo342reaK1azDQdOnuIoTHQtkBpMXAgJpBFwFucZ9Ti306otEsMEaWW22bMhZ5z7Zl9hJ+fg98pr+/ef42ht8dfWho8+DR5NtxqGZRm+yA6/d3fARaMJ2CqOMVChHX4azWq+JUKI4/wxEyG+GnA6iBwToTo/1FH+AR/skIYKvBul0/KrQGIWxI2UnQHHh5DklKPpj912fSDxs88YqZL126hg==}"
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
@@ -86,6 +83,7 @@ jenkins:
       excludeClientIPFromCrumb: true
   disableRememberMe: true
   disabledAdministrativeMonitors:
+  - "hudson.util.DoubleLaunchChecker"
   - "hudson.diagnosis.ReverseProxySetupMonitor"
   labelAtoms:
   - name: "built-in"
@@ -111,6 +109,8 @@ jenkins:
       name: "all"
   projectNamingStrategy: "standard"
   quietPeriod: 5
+  remotingSecurity:
+    enabled: true
   scmCheckoutRetryCount: 0
   securityRealm:
     local:
@@ -192,6 +192,8 @@ security:
     allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
   scriptApproval:
     forceSandbox: false
 unclassified:
@@ -201,9 +203,23 @@ unclassified:
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
+  globalLibraries:
+    libraries:
+    - defaultVersion: "main"
+      name: "jenkins-shared-library"
+      retriever:
+        modernSCM:
+          libraryPath: "./"
+          scm:
+            git:
+              credentialsId: "github-creds"
+              id: "b2b2040f-29af-4690-b3a2-b1cee3e9acbf"
+              remote: "https://github.com/lolek1979/jenkins-shared-library.git"
+              traits:
+              - "gitBranchDiscovery"
   location:
     adminAddress: "address not configured yet <nobody@nowhere>"
-    url: "http://jenkins:8080/"
+    url: "https://jenkins.k8s.orb.local/"
   mailer:
     charset: "UTF-8"
     useSsl: false
