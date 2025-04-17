@@ -151,7 +151,7 @@ jobs:
                         branches('main')
                     }
                 }
-                scriptPath('k8s-infra/jenkins/creds-test.Jenkinsfile')
+                scriptPath('jenkins/creds-test.Jenkinsfile')
             }
         }
       }
