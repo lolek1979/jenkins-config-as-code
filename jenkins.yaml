@@ -5,20 +5,20 @@ credentials:
       - usernamePassword:
           description: "Docker Hub login"
           id: "docker-hub-creds"
-          password: "{AQAAABAAAAAw41SAbybbn8XRz1stj/ymz6sOLTy/MFkggcZLZphgLEYHLgTb59wiHyckkIHrM0c2JaTBJfVyZ7LD0i2z2ayaKA==}"
+          password: "{AQAAABAAAAAwcX2fn9/RWq7/wm9EufzZI3RxKR1ECie/vp1+XbUUyBDPfbz6LFUhqEBv1DhFrLMrYNzxvmIDdZMu2kJsdDh6Ug==}"
           scope: GLOBAL
           username: "pkonieczny321"
       - usernamePassword:
           description: "Pulling/pushing to GitHub"
           id: "github-creds"
-          password: "{AQAAABAAAAGQ5dfOpQo3cPgWIhRCgpoDcWWfcpcicgxPBNFgEGquJAwbJZz0k0yQ+FuUKI4WHzp8y7Q9Sa4zdbyV+2H+alo0DxcC+3rjiXeCVojS4QRS+Tpx2xCVyRshDOIXWytqwaXKA3Lwax4b12dlHZiX/5Ine6MP1zxlk5fmQ+3N1ERMl2qc8Suu4bfgOm6A9ZaiSXw5+tBCVKR5nomP0UqjYQrdc0x4QJAUrl5wT2BtSnYAFo4yb7v4n7rRbXm2obAVrVYAO/xa13pf9xXYabS3gGt6MnQLxlD5dhff3ImfS8F+3FtZGQ0SkSMoZwErTsfgPH7sLmFfdinsZA+Py+NQv4Wp56OYpFvNBO2V5pTOd2uKqUdBICLxqMz/7hVbUIlsE9+8ffKj2712LZOF/ksJy9Ule5GjIpCbXqbABbwlx0eYgQYch4S2rngKOYOTme7aeL2ze539frn30T2igXu6cAh18YL1Lhi8O2zxeyu9SO/eJkUOY3V19xDoFCLeAekYgH66iVniAnPN+s0s5kOSmSLh+j5GqckH4auUTS6CuJklaEI=}"
+          password: "{AQAAABAAAAGQljp+kuMYYs8IXCOAOx+XhSr2cauzQ9YgNj6qghfLWhlbw0YMkkvClWT8SXVVq/45jGZFS0bfyjsLCf9FNVxIyo/saBC3AwPu1S9/k2gdfBgBhRTnPOmDJrWigeXNKHhtgczJCaUCeA7WKTnjCLlSiA6AJ4xY2wmVxhzujGJKj/MvZMoxrUQ5xtQ/Ozcqr7fYWvJsCEHbqYklX+ftV7Vss2dIQlI1XYgHd6wOx+tZBTo4QN2aDFXiqJ2gn4YstTV9SYSkJ/BfPuKqAKfuhbWcy2JauvZ+8qqr5IHB/pvCA6sjmY0vE7k/iTBZiFoxzZSMdvUJ30OUNs9f9r1OYa/xSq1t6ZGeqVvH+St/D0XJGt68JFRl1fyxNIphKRO5t+2QQ9fE38NaXF/yFl+DTR7f9mTVqW8H6FioLQzJuekpLa5l2oVWNuno/wPnPSGvpfFGkoBJQMSIJN7mvi0+i237r0WqAzbRE6I/a7v7DKyYY7JzJ55iLbAfdZu6Y+D8Mm4H0OEigYmpPPe1A3jmyML96xtlIFo/ya8da5SesP2dBKM=}"
           scope: GLOBAL
           username: "lolek1979"
       - string:
           description: "Argo CD API token for deployments"
           id: "argocd-token"
           scope: GLOBAL
-          secret: "{AQAAABAAAADwDijb2qAChQpXoM4rxYDtKeuQnW9CM/TkQQiXrO8yOyXf6Ba4/bI8uHLU//fN1W6wRaSqHHqf0qAz3A2ZHJoFFKwTGapHhO3iohgdMlyVYHi0JeZsnfK3lV27rOKf+TXo342reaK1azDQdOnuIoTHQtkBpMXAgJpBFwFucZ9Ti306otEsMEaWW22bMhZ5z7Zl9hJ+fg98pr+/ef42ht8dfWho8+DR5NtxqGZRm+yA6/d3fARaMJ2CqOMVChHX4azWq+JUKI4/wxEyG+GnA6iBwToTo/1FH+AR/skIYKvBul0/KrQGIWxI2UnQHHh5DklKPpj912fSDxs88YqZL126hg==}"
+          secret: "{AQAAABAAAADQeUtFInsJ9Q8vmJVRIHAAFpDWqOfrXS/xW63PebeDx/ivjBiLj86Ln+vKgY6ZS4LJnSaLFPqaKN+9DorYw57fuynlUdjQ5cGCgiXTH5UnWpII7t2FGiY2vK4pcNM5kJ1nzCZry4bpdE7YtADcigmoFztzHO54Pl+fnvmyJfps1H+rvoMjMOpNa/4oCbf/DpNY1LKs8UZXBt36w64LqmXEX65OR1/Ap3a2OxCgvn2xJsfWygI9QghWvRVIpo6+Qd+rOOoTqmwCsP/Gw3+aNs5ME/cnFH5NvF7ZbOlSBM2q6c4=}"
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
