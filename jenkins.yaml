@@ -137,6 +137,24 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+  jobs:
+    - script: >
+        pipelineJob('autotest-creds') {
+          definition {
+              cpsScm {
+                  scm {
+                      git {
+                          remote {
+                              url('https://github.com/your-org/your-repo.git')
+                              credentials('github-creds')
+                          }
+                          branches('main')
+                      }
+                  }
+                  scriptPath('Jenkinsfile')
+              }
+          }
+        }
 # jobs:
 #   - script: >
 #       pipelineJob('sw-movie-app') {
