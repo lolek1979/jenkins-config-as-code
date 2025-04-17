@@ -137,42 +137,42 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
-jobs:
-  - script: >
-      pipelineJob('sw-movie-app') {
-        properties {
-          parametersDefinitionProperty {
-            parameterDefinitions {
-              stringParameterDefinition {
-                name('imageName')
-                defaultValue('pkonieczny321/sw-movie-app')
-                description('Docker image name')
-              }
-              stringParameterDefinition {
-                name('imageTag')
-                defaultValue('1.0.0')
-                description('Docker image tag')
-              }
-            }
-          }
-        }
+# jobs:
+#   - script: >
+#       pipelineJob('sw-movie-app') {
+#         properties {
+#           parametersDefinitionProperty {
+#             parameterDefinitions {
+#               stringParameterDefinition {
+#                 name('imageName')
+#                 defaultValue('pkonieczny321/sw-movie-app')
+#                 description('Docker image name')
+#               }
+#               stringParameterDefinition {
+#                 name('imageTag')
+#                 defaultValue('1.0.0')
+#                 description('Docker image tag')
+#               }
+#             }
+#           }
+#         }
 
-        definition {
-          cpsScm {
-            lightweight(true)
-            scm {
-              git {
-                remote {
-                  url('https://github.com/lolek1979/sw-movie-app-k8s.git')
-                  credentials('github-creds')
-                }
-                branches('*/main')
-              }
-            }
-            scriptPath('Jenkinsfile')
-          }
-        }
-      }
+#         definition {
+#           cpsScm {
+#             lightweight(true)
+#             scm {
+#               git {
+#                 remote {
+#                   url('https://github.com/lolek1979/sw-movie-app-k8s.git')
+#                   credentials('github-creds')
+#                 }
+#                 branches('*/main')
+#               }
+#             }
+#             scriptPath('Jenkinsfile')
+#           }
+#         }
+#       }
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
