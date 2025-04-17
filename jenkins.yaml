@@ -145,13 +145,13 @@ jobs:
                 scm {
                     git {
                         remote {
-                            url('https://github.com/your-org/your-repo.git')
+                            url('https://github.com/lolek1979/k8s-infra.git')
                             credentials('github-creds')
                         }
                         branches('main')
                     }
                 }
-                scriptPath('Jenkinsfile')
+                scriptPath('k8s-infra/jenkins/creds-test.Jenkinsfile')
             }
         }
       }
